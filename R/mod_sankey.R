@@ -1,0 +1,55 @@
+#' sankey UI Function
+#'
+#' @description A shiny Module.
+#'
+#' @param id,input,output,session Internal parameters for {shiny}.
+#'
+#' @noRd
+#'
+#' @importFrom shiny NS tagList
+mod_sankey_ui <- function(id){
+  ns <- shiny::NS(id)
+  shiny::tabPanel(
+    "Sankey",
+    shiny::sidebarLayout(
+      shiny::sidebarPanel(
+        shiny::selectInput(
+          ns("cohort"),
+          "Select cohort:",
+          choices = c("Cohort 1", "Cohort 2")
+        ),
+        shiny::selectInput(
+          ns("metric"),
+          "Select metric:",
+          choices = c("Metric 1", "Metric 2")
+        ),
+        shiny::selectInput(
+          ns("group"),
+          "Select first-level group:",
+          choices = c("Group 1", "Group 2")
+        ),
+        shiny::selectInput(
+          ns("group"),
+          "Select second-level group:",
+          choices = c("Group 1", "Group 2")
+        ),
+        shiny::selectInput(
+          ns("group"),
+          "Select third-level group:",
+          choices = c("Group 1", "Group 2")
+        ),
+      ),
+      shiny::mainPanel("Sankey widget")
+    )
+  )
+}
+
+#' sankey Server Functions
+#'
+#' @noRd
+mod_sankey_server <- function(id){
+  shiny::moduleServer( id, function(input, output, session){
+    ns <- session$ns
+
+  })
+}
