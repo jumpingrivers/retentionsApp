@@ -1,18 +1,27 @@
 Package: retentionsApp
 Title: Retentions data application
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person("Jumping", "Rivers", , "info@jumpingrivers.com", role = c("aut", "cre"))
 Description: Retentions data exploration app-as-a-package.
 License: file LICENSE
 Imports: 
+    bslib,
     config (>= 0.3.1),
+    dplyr,
+    ggplot2,
+    glue,
     golem (>= 0.3.3),
     magrittr,
+    plotly,
+    readr,
     rlang,
+    scales,
     shiny (>= 1.7.1),
     shinydashboard,
-    shinyWidgets
+    shinyWidgets,
+    stringr,
+    tidyr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.0
