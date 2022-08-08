@@ -16,10 +16,14 @@ calculate_retention = function(df,
                                input_group,
                                input_agency,
                                tab) {
-  df %>%
-    filter_data(input_agency, input_filter_by, input_filter_values, tab) %>%
+  filtered_data = filter_data(df, input_agency, input_filter_by, input_filter_values, tab)
+  if (nrow(filtered_data) == 0) {
+    return(filtered_data)
+  }
+  return_rates = filtered_data %>%
     calculate_headcount(input_metric, input_group) %>%
     calculate_return_rate(input_metric)
+  return(return_rates)
 }
 
 #' Filter data

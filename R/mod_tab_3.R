@@ -79,17 +79,18 @@ mod_tab_3_server = function(id) {
       )
     })
 
+
     retention_data = shiny::reactive({
-      df = try(calculate_retention(
+      df = calculate_retention(
         tabs_3_and_4,
         input_filter_by = input$add_filter,
         input_filter_values = filter_inputs(),
         input_metric = input$metric,
         input_group = input$group,
         input_agency = "third week",
-        tab = 3))
+        tab = 3)
       shiny::validate(
-        shiny::need(!(class(df) %in% "try-error"),
+        shiny::need(nrow(df) != 0,
                     "There is no data which matches these filters.
                     \n Please update your filters.")
       )

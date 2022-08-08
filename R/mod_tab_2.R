@@ -24,17 +24,17 @@ mod_tab_2_ui = function(id) {
           choices = c("Metric 1", "Metric 2")
         ),
         shiny::selectInput(
-          ns("group"),
+          ns("group_1"),
           "Select first-level group:",
           choices = c("Group 1", "Group 2")
         ),
         shiny::selectInput(
-          ns("group"),
+          ns("group_2"),
           "Select second-level group:",
           choices = c("Group 1", "Group 2")
         ),
         shiny::selectInput(
-          ns("group"),
+          ns("group_3"),
           "Select third-level group:",
           choices = c("Group 1", "Group 2")
         ),
