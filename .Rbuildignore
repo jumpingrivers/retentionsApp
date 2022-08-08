@@ -10,3 +10,4 @@ _files$
 ^CODEOWNERS$
 docs
 /rsconnect/
+_\.new\.png$
