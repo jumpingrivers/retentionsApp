@@ -19,6 +19,14 @@ mod_tab_1_ui = function(id) {
                         border-radius: .25rem;
                         padding-left: 1rem;
 	                      box-shadow: none;
+                      }
+
+                      .fa-percent {
+                        font-size: 70px;
+                        position: absolute;
+                        top: 20%;
+                        right: 15%;
+                        opacity: 0.2
                       }"),
     shiny::fluidRow(
       shinydashboard::valueBoxOutput(ns("fall_to_fall"), width = 3),
@@ -26,6 +34,7 @@ mod_tab_1_ui = function(id) {
       shinydashboard::valueBoxOutput(ns("second_year"), width = 3),
       shinydashboard::valueBoxOutput(ns("third_year"), width = 3)
     ),
+    shiny::br(),
     shiny::fluidRow(
       shiny::column(width = 4, shiny::wellPanel("Info about plot")),
       shiny::column(width = 8, shiny::wellPanel(
@@ -38,33 +47,25 @@ mod_tab_1_ui = function(id) {
 #' tab_1 Server Functions
 #'
 #' @noRd
-mod_tab_1_server = function(id) {
+mod_tab_1_server = function(id, goals, summarised_retention) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns # nolint
 
-    tab_1_df = readr::read_csv("inst/app/fake_data/tab_1_df.csv", show_col_types = FALSE)
-    tab_1_goals = readr::read_csv("inst/app/fake_data/tab_1_goals.csv", show_col_types = FALSE)
-
-    custom_colors = c("Fall To Fall" = "#f03424",
-                      "Fall To Spring" = "#0772f4",
-                      "Second Year" = "#60b94a",
-                      "Third Year" = "#9e06bd")
-
     output$fall_to_fall = shinydashboard::renderValueBox({
-      create_valuebox(tab_1_goals, "fall to fall", custom_colors)
+      create_valuebox(goals, "fall to fall", colors_value_boxes())
     })
     output$fall_to_spring = shinydashboard::renderValueBox({
-      create_valuebox(tab_1_goals, "fall to spring", custom_colors)
+      create_valuebox(goals, "fall to spring", colors_value_boxes())
     })
     output$second_year = shinydashboard::renderValueBox({
-      create_valuebox(tab_1_goals, "second year", custom_colors)
+      create_valuebox(goals, "second year", colors_value_boxes())
     })
     output$third_year = shinydashboard::renderValueBox({
-      create_valuebox(tab_1_goals, "third year", custom_colors)
+      create_valuebox(goals, "third year", colors_value_boxes())
     })
 
     output$retention_lines = plotly::renderPlotly({
-      goal_line_chart(tab_1_df, custom_colors)
+      goal_line_chart(summarised_retention, colors_value_boxes())
     })
 
   })
@@ -78,8 +79,12 @@ mod_tab_1_server = function(id) {
 #' @param text_color Named character vector containing custom colors
 create_valuebox = function(df, metric_filter, text_color) {
 df = process_valuebox_data(df, metric_filter, text_color)
-  shinydashboard::valueBox(shiny::tags$h3(df$goal, style = glue::glue("color: {df$color}")),
-                           shiny::tags$p(df$metric, style = "color: #000"))
+  shinydashboard::valueBox(
+    shiny::tags$h3(df$goal,
+                   style = glue::glue("color: {df$color}; font-size: 80px;")),
+    shiny::tags$p(df$metric,
+                  style = "color: #000; margin-left: 5px;"),
+                           icon = shiny::icon("percent"))
 }
 
 #' Process value box data
@@ -95,7 +100,7 @@ process_valuebox_data = function(df, metric_filter, text_color) {
   df %>%
     dplyr::filter(.data$metric == metric_filter) %>%
     dplyr::mutate(metric = stringr::str_to_title(.data$metric),
-                  goal = paste0(.data$goal, "%")) %>%
+                  goal = as.character(.data$goal)) %>%
     dplyr::inner_join(dplyr::tibble(metric = names(text_color),
                                     color = text_color),
                       by = "metric")

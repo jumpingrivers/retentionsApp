@@ -4,7 +4,7 @@
 \alias{conditional_filter_input}
 \title{Create conditional filter input}
 \usage{
-conditional_filter_input(df, col_name, input_label, id)
+conditional_filter_input(df, col_name, input_label, id, session)
 }
 \arguments{
 \item{df}{Tibble containing retentions data}
@@ -14,8 +14,11 @@ conditional_filter_input(df, col_name, input_label, id)
 \item{input_label}{Label for pickerInput}
 
 \item{id}{ID for namespace}
+
+\item{session}{Shiny session}
 }
 \description{
-Create conditional panel containing pickerInput
-for any groups selected in add_filter.
+Create pickerInput to be used in
+conditional panel created by `conditional_filter_panel()`
+This function is used in the server (contains `shiny::renderUI`)
 }
