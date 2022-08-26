@@ -4,12 +4,14 @@
 \alias{retention_line_chart}
 \title{Create retention line chart}
 \usage{
-retention_line_chart(df, group)
+retention_line_chart(df, group, custom_colors)
 }
 \arguments{
 \item{df}{Tibble containing calculated return rate}
 
 \item{group}{What to colour/group line chart by}
+
+\item{custom_colors}{Named character vector containing custom colors}
 }
 \description{
 Line chart containing calculated return rates for tabs 3 and 4

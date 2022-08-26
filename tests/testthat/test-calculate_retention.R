@@ -2,21 +2,21 @@ testthat::test_that("retention calculation works", {
   file_path = system.file("app/fake_data/tabs_3_and_4.csv",
                           package = "retentionsApp",
                           mustWork = TRUE)
-  tabs_3_and_4 = readr::read_csv(file_path, show_col_types = FALSE)
+  raw_retention = readr::read_csv(file_path, show_col_types = FALSE)
   filter_by = c("gender", "ipeds_race_ethnicity")
   filter_values = list(
     "gender" = "Female",
     "ipeds_race_ethnicity" = "Hispanic",
-    "department" = unique(tabs_3_and_4$department),
-    "program" = unique(tabs_3_and_4$program),
-    "gpa_band" = unique(tabs_3_and_4$gpa_band),
-    "college" = unique(tabs_3_and_4$college)
+    "department" = unique(raw_retention$department),
+    "program" = unique(raw_retention$program),
+    "gpa_band" = unique(raw_retention$gpa_band),
+    "college" = unique(raw_retention$college)
   )
   metric = "fall_returned"
   group = "college"
   agency = "third week"
   tab = 3
-  retention_rates = retentionsApp:::calculate_retention(tabs_3_and_4, # nolint
+  retention_rates = retentionsApp:::calculate_retention(raw_retention, # nolint
                                                        filter_by,
                                                        filter_values,
                                                        metric,

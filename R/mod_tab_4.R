@@ -16,30 +16,36 @@ mod_tab_4_ui = function(id) {
         shiny::selectInput(
           ns("agency"),
           "Select agency:",
-          choices = unique(tabs_3_and_4$metric)
+          choices = c(
+            c("Third Week" = "third week"),
+            "USHE",
+            c("End of Term" = "end of term"),
+            c("IPDES" = "ipdes")
+          ),
+          selected = "end of term"
         ),
         shiny::selectInput(
           ns("metric"),
           "Select Metric:",
           choices = c(
-            "spring_returned",
-            "fall_returned",
-            "second_fall_returned",
-            "third_fall_returned",
-            "fourth_fall_returned",
-            "fifth_fall_returned",
-            "sixth_fall_returned"
+            c("Fall to Spring" = "spring_returned"),
+            c("Fall to Fall" = "fall_returned"),
+            c("Third Year" = "third_fall_returned"),
+            c("Fourth Year" = "fourth_fall_returned"),
+            c("Fifth Year" = "fifth_fall_returned"),
+            c("Sixth Year" = "sixth_fall_returned")
           )
         ),
         shiny::selectInput(
           ns("group"),
           "Select Group:",
-          choices = c("college",
-                      "department",
-                      "program",
-                      "gender",
-                      "ipeds_race_ethnicity",
-                      "gpa_band")
+          choices = c(
+            c("College" = "college"),
+            c("Department" = "department"),
+            c("Program" = "program"),
+            c("Gender" = "gender"),
+            c("Race/Ethnicity" = "ipeds_race_ethnicity"),
+            c("GPA Band" = "gpa_band"))
         )
       ),
       shiny::mainPanel(
@@ -52,12 +58,12 @@ mod_tab_4_ui = function(id) {
 #' tab_4 Server Functions
 #'
 #' @noRd
-mod_tab_4_server = function(id) {
+mod_tab_4_server = function(id, raw_retention) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns # nolint
 
     retention_data = shiny::reactive({
-      calculate_retention(tabs_3_and_4,
+      calculate_retention(raw_retention,
                           input_filter_by = "",
                           input_filter_values = "",
                           input_agency = input$agency,
@@ -67,9 +73,7 @@ mod_tab_4_server = function(id) {
     })
 
     output$retention_lines = plotly::renderPlotly({
-      retention_line_chart(retention_data(), input$group)
+      retention_line_chart(retention_data(), input$group, colors_10())
     })
   })
 }
-
-tabs_3_and_4 = readr::read_csv("inst/app/fake_data/tabs_3_and_4.csv", show_col_types = FALSE)

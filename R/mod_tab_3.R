@@ -17,33 +17,33 @@ mod_tab_3_ui = function(id) {
           ns("metric"),
           "Select Metric:",
           choices = c(
-            "spring_returned",
-            "fall_returned",
-            "second_fall_returned",
-            "third_fall_returned",
-            "fourth_fall_returned",
-            "fifth_fall_returned",
-            "sixth_fall_returned"
+            c("Fall to Spring" = "spring_returned"),
+            c("Fall to Fall" = "fall_returned"),
+            c("Third Year" = "third_fall_returned"),
+            c("Fourth Year" = "fourth_fall_returned"),
+            c("Fifth Year" = "fifth_fall_returned"),
+            c("Sixth Year" = "sixth_fall_returned")
           )
         ),
         shiny::selectInput(
           ns("group"),
           "Select Group:",
-          choices = c("college",
-                      "department",
-                      "program",
-                      "gender",
-                      "ipeds_race_ethnicity",
-                      "gpa_band"),
+          choices = c(
+            c("College" = "college"),
+            c("Department" = "department"),
+            c("Program" = "program"),
+            c("Gender" = "gender"),
+            c("Race/Ethnicity" = "ipeds_race_ethnicity"),
+            c("GPA Band" = "gpa_band")),
           selected = "college"
         ),
         shiny::uiOutput(ns("add_filter")),
-        conditional_filter_input(tabs_3_and_4, "gender", "Gender", id),
-        conditional_filter_input(tabs_3_and_4, "ipeds_race_ethnicity", "Race/Ethnicity", id),
-        conditional_filter_input(tabs_3_and_4, "college", "College", id),
-        conditional_filter_input(tabs_3_and_4, "department", "Department", id),
-        conditional_filter_input(tabs_3_and_4, "program", "Program", id),
-        conditional_filter_input(tabs_3_and_4, "gpa_band", "GPA Band", id)
+        conditional_filter_panel("gender", "Gender", id),
+        conditional_filter_panel("ipeds_race_ethnicity", "Race/Ethnicity", id),
+        conditional_filter_panel("college", "College", id),
+        conditional_filter_panel("department", "Department", id),
+        conditional_filter_panel("program", "Program", id),
+        conditional_filter_panel("gpa_band", "GPA Band", id)
       ),
       shiny::mainPanel(
         plotly::plotlyOutput(ns("retention_lines"))
@@ -55,9 +55,51 @@ mod_tab_3_ui = function(id) {
 #' tab_3 Server Functions
 #'
 #' @noRd
-mod_tab_3_server = function(id) {
+mod_tab_3_server = function(id, raw_retention) {
   shiny::moduleServer(id, function(input, output, session) {
     ns = session$ns # nolint
+
+    output$gender_panel = conditional_filter_input(
+      raw_retention,
+      "gender",
+      "Gender",
+      id,
+      session)
+
+    output$ipeds_race_ethnicity_panel = conditional_filter_input(
+      raw_retention,
+      "ipeds_race_ethnicity",
+      "Race/Ethnicity",
+      id,
+      session)
+
+    output$college_panel = conditional_filter_input(
+      raw_retention,
+      "college",
+      "College",
+      id,
+      session)
+
+    output$department_panel = conditional_filter_input(
+      raw_retention,
+      "department",
+      "Department",
+      id,
+      session)
+
+    output$program_panel = conditional_filter_input(
+      raw_retention,
+      "program",
+      "Program",
+      id,
+      session)
+
+    output$gpa_band_panel = conditional_filter_input(
+      raw_retention,
+      "gpa_band",
+      "GPA Band",
+      id,
+      session)
 
     output$add_filter = shiny::renderUI({
       shinyWidgets::pickerInput(
@@ -79,10 +121,9 @@ mod_tab_3_server = function(id) {
       )
     })
 
-
     retention_data = shiny::reactive({
       df = calculate_retention(
-        tabs_3_and_4,
+        raw_retention,
         input_filter_by = input$add_filter,
         input_filter_values = filter_inputs(),
         input_metric = input$metric,
@@ -99,12 +140,10 @@ mod_tab_3_server = function(id) {
 
 
     output$retention_lines = plotly::renderPlotly({
-      retention_line_chart(retention_data(), input$group)
+      retention_line_chart(retention_data(), input$group, colors_10())
     })
   })
 }
-
-tabs_3_and_4 = readr::read_csv("inst/app/fake_data/tabs_3_and_4.csv", show_col_types = FALSE)
 
 #' Create remaining group choices
 #'
@@ -112,12 +151,13 @@ tabs_3_and_4 = readr::read_csv("inst/app/fake_data/tabs_3_and_4.csv", show_col_t
 #'
 #' @param selected_group Group selected in input widget
 remaining_group_choices = function(selected_group = "") {
-  all_choices = c("college",
-                  "department",
-                  "program",
-                  "gender",
-                  "ipeds_race_ethnicity",
-                  "gpa_band")
+  all_choices = c(
+    c("College" = "college"),
+    c("Department" = "department"),
+    c("Program" = "program"),
+    c("Gender" = "gender"),
+    c("Race/Ethnicity" = "ipeds_race_ethnicity"),
+    c("GPA Band" = "gpa_band"))
   without_selected = all_choices[all_choices != selected_group]
   return(without_selected)
 }
@@ -125,22 +165,38 @@ remaining_group_choices = function(selected_group = "") {
 #' Create conditional filter input
 #'
 #' Create conditional panel containing pickerInput
-#' for any groups selected in add_filter.
-#' @param df Tibble containing retentions data
+#' created by `conditional_filter_input()`.
+#' This function is used in the UI (contains `shiny::uiOutput`)
 #' @param col_name Which column to create filter for
 #' @param input_label Label for pickerInput
 #' @param id ID for namespace
-conditional_filter_input = function(df, col_name, input_label, id) {
+conditional_filter_panel = function(col_name, input_label, id) {
   ns = shiny::NS(id)
   shiny::conditionalPanel(
     condition = glue::glue("input.add_filter.includes('{col_name}')"),
+    shiny::uiOutput(ns(glue::glue("{col_name}_panel"))),
+    ns = shiny::NS(id)
+  )
+}
+
+#' Create conditional filter input
+#'
+#' Create pickerInput to be used in
+#' conditional panel created by `conditional_filter_panel()`
+#' This function is used in the server (contains `shiny::renderUI`)
+#' @param df Tibble containing retentions data
+#' @inheritParams conditional_filter_panel
+#' @param session Shiny session
+conditional_filter_input = function(df, col_name, input_label, id, session) {
+  ns = session$ns
+  shiny::renderUI({
     shinyWidgets::pickerInput(
       ns(glue::glue("{col_name}")),
       label = input_label,
       choices = unique(df[[col_name]]),
       selected = unique(df[[col_name]]),
       multiple = TRUE,
-      options = list(`actions-box` = TRUE)),
-    ns = shiny::NS("tab_3_1")
-  )
+      options = list(`actions-box` = TRUE)
+    )
+  })
 }
