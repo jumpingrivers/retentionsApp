@@ -7,7 +7,7 @@ app_server = function(input, output, session) {
 
   goals = get_goal_data()
   summarised_retention = get_summarised_retention_data()
-  raw_retention = get_raw_retention_data()
+  raw_retention = get_retention_data()
 
   mod_tab_1_server("tab_1_1", goals, summarised_retention)
   mod_tab_2_server("tab_2_1")
