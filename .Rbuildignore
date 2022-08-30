@@ -11,3 +11,5 @@ _files$
 docs
 /rsconnect/
 _\.new\.png$
+^app\.R$
+^rsconnect$
