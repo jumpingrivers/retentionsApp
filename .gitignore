@@ -39,3 +39,5 @@ inst/doc
 .jrtemplate.yml
 *.env
 *.swp
+# {shinytest2}: Ignore new debug snapshots for `$expect_values()`
+*_.new.png

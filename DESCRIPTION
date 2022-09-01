@@ -1,6 +1,6 @@
 Package: retentionsApp
 Title: Retentions data application
-Version: 0.0.0.9004
+Version: 0.0.0.9005
 Authors@R:
     person("Jumping", "Rivers", , "info@jumpingrivers.com", role = c("aut", "cre"))
 Description: Retentions data exploration app-as-a-package.
@@ -26,6 +26,7 @@ Imports:
     stringr,
     tidyr
 Suggests:
+    shinytest2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
