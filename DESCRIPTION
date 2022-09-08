@@ -1,6 +1,6 @@
 Package: retentionsApp
 Title: Retentions data application
-Version: 0.0.0.9005
+Version: 0.0.0.9006
 Authors@R:
     person("Jumping", "Rivers", , "info@jumpingrivers.com", role = c("aut", "cre"))
 Description: Retentions data exploration app-as-a-package.
@@ -16,18 +16,22 @@ Imports:
     magrittr,
     pins,
     plotly,
+    purrr,
     readr,
     rlang,
-    rsconnect,
     scales,
     shiny (>= 1.7.1),
     shinydashboard,
     shinyWidgets,
     stringr,
-    tidyr
+    tidyr,
+    utVizSankey
 Suggests:
+    rsconnect,
     shinytest2,
     testthat (>= 3.0.0)
+Remotes:
+    jumpingrivers/utVizSankey
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

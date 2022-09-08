@@ -29,7 +29,7 @@ mod_tab_4_ui = function(id) {
           "Select Metric:",
           choices = c(
             c("Fall to Spring" = "spring_returned"),
-            c("Fall to Fall" = "fall_returned"),
+            c("Fall to Fall" = "second_fall_returned"),
             c("Third Year" = "third_fall_returned"),
             c("Fourth Year" = "fourth_fall_returned"),
             c("Fifth Year" = "fifth_fall_returned"),
