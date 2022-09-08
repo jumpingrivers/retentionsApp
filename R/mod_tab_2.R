@@ -153,7 +153,7 @@ mod_tab_2_server = function(id, raw_retention) {
 #' @param rvs Reactive values
 check_update_select = function(input, input_a, input_b, rvs) {
   if (input[[input_a]] == input[[input_b]]) {
-    shiny::updateSelectInput(input_a = input_b, selected = rvs[[input_a]])
+    shiny::updateSelectInput(inputId = input_b, selected = rvs[[input_a]])
   }
 }
 

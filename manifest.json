@@ -1116,7 +1116,7 @@
         "Type": "Package",
         "Package": "dplyr",
         "Title": "A Grammar of Data Manipulation",
-        "Version": "1.0.9",
+        "Version": "1.0.10",
         "Authors@R": "\n    c(person(given = \"Hadley\",\n             family = \"Wickham\",\n             role = c(\"aut\", \"cre\"),\n             email = \"hadley@rstudio.com\",\n             comment = c(ORCID = \"0000-0003-4757-117X\")),\n      person(given = \"Romain\",\n             family = \"François\",\n             role = \"aut\",\n             comment = c(ORCID = \"0000-0002-2444-4226\")),\n      person(given = \"Lionel\",\n             family = \"Henry\",\n             role = \"aut\"),\n      person(given = \"Kirill\",\n             family = \"Müller\",\n             role = \"aut\",\n             comment = c(ORCID = \"0000-0002-1416-3412\")),\n      person(given = \"RStudio\",\n             role = c(\"cph\", \"fnd\")))",
         "Description": "A fast, consistent tool for working with data frame\n    like objects, both in memory and out of memory.",
         "License": "MIT + file LICENSE",
@@ -1128,16 +1128,16 @@
         "VignetteBuilder": "knitr",
         "Encoding": "UTF-8",
         "LazyData": "true",
-        "RoxygenNote": "7.1.2",
+        "RoxygenNote": "7.2.1",
         "Config/testthat/edition": "3",
         "Config/Needs/website": "tidyverse, shiny, pkgdown, tidyverse/tidytemplate",
         "NeedsCompilation": "yes",
-        "Packaged": "2022-04-27 14:20:55 UTC; davis",
+        "Packaged": "2022-08-31 18:31:04 UTC; hadleywickham",
         "Author": "Hadley Wickham [aut, cre] (<https://orcid.org/0000-0003-4757-117X>),\n  Romain François [aut] (<https://orcid.org/0000-0002-2444-4226>),\n  Lionel Henry [aut],\n  Kirill Müller [aut] (<https://orcid.org/0000-0002-1416-3412>),\n  RStudio [cph, fnd]",
         "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
         "Repository": "RSPM",
-        "Date/Publication": "2022-04-28 13:30:02 UTC",
-        "Built": "R 4.2.0; x86_64-pc-linux-gnu; 2022-04-29 11:04:02 UTC; unix"
+        "Date/Publication": "2022-09-01 09:20:06 UTC",
+        "Built": "R 4.2.1; x86_64-pc-linux-gnu; 2022-09-06 14:38:55 UTC; unix"
       }
     },
     "ellipsis": {
@@ -3658,18 +3658,18 @@
       "GithubRepo": "utvizsankey",
       "GithubUsername": "jumpingrivers",
       "GithubRef": "HEAD",
-      "GithubSha1": "24c3d1845ed1954a296d10a48d520d51c271a4ad",
+      "GithubSha1": "b1c61f5fc5cef8677248525c4b1c88eccfe55a78",
       "description": {
         "Type": "Package",
         "Package": "utVizSankey",
         "Title": "htmlwidgets package for creating sankey plots of retentions and\nadmissions data",
-        "Version": "0.1.3",
+        "Version": "0.2.0",
         "Authors@R": "\n    person(\"Jumping\", \"Rivers\", , \"info@jumpingrivers.com\", role = c(\"aut\", \"cre\"))",
         "Description": "htmlwidgets package for creating sunburst plots of retentions\n    and admissions data.",
         "License": "MIT + file LICENSE",
         "Depends": "R (>= 4.1.0)",
-        "Imports": "htmlwidgets, magrittr, rlang",
-        "Suggests": "knitr, rmarkdown, testthat (>= 3.0.0)",
+        "Imports": "htmlwidgets, magrittr, rlang, shiny",
+        "Suggests": "knitr, purrr, rmarkdown, testthat (>= 3.0.0)",
         "VignetteBuilder": "knitr",
         "Encoding": "UTF-8",
         "LazyData": "true",
@@ -3679,16 +3679,16 @@
         "RemoteRepo": "utvizsankey",
         "RemoteUsername": "jumpingrivers",
         "RemoteRef": "HEAD",
-        "RemoteSha": "24c3d1845ed1954a296d10a48d520d51c271a4ad",
+        "RemoteSha": "b1c61f5fc5cef8677248525c4b1c88eccfe55a78",
         "GithubRepo": "utvizsankey",
         "GithubUsername": "jumpingrivers",
         "GithubRef": "HEAD",
-        "GithubSHA1": "24c3d1845ed1954a296d10a48d520d51c271a4ad",
+        "GithubSHA1": "b1c61f5fc5cef8677248525c4b1c88eccfe55a78",
         "NeedsCompilation": "no",
-        "Packaged": "2022-09-02 15:26:01 UTC; mandy",
+        "Packaged": "2022-09-07 09:42:02 UTC; mandy",
         "Author": "Jumping Rivers [aut, cre]",
         "Maintainer": "Jumping Rivers <info@jumpingrivers.com>",
-        "Built": "R 4.2.1; ; 2022-09-02 15:26:01 UTC; unix"
+        "Built": "R 4.2.1; ; 2022-09-07 09:42:02 UTC; unix"
       }
     },
     "utf8": {
@@ -4123,7 +4123,7 @@
       "checksum": "51f0e6a7de8f2e7ce9f76b82bda8cb3b"
     },
     "DESCRIPTION": {
-      "checksum": "0d7dc8a84d346ebeae00723e20e1f46f"
+      "checksum": "f83dede6673df0876b488c9e4c272835"
     },
     "inst/app/fake_data/tab_1_df.csv": {
       "checksum": "10422e919199dc569f78191a48236ba6"
@@ -4148,9 +4148,6 @@
     },
     "LICENSE": {
       "checksum": "a202d096b23fcb93ff2ba13a2b43639a"
-    },
-    "man/basic_sankey_options.Rd": {
-      "checksum": "f656f47ccc108367f2fff30175e24363"
     },
     "man/calculate_headcount.Rd": {
       "checksum": "3bc32b0dadd3824f3d9032a265b390d2"
@@ -4236,6 +4233,9 @@
     "man/run_app.Rd": {
       "checksum": "db153f001c7c98594f4a6e64193fbf8a"
     },
+    "man/sankey_options.Rd": {
+      "checksum": "133a6286b031146068799a6dfe97fa51"
+    },
     "man/title_logo.Rd": {
       "checksum": "fc1a3ae41c295a7a2820107918e566a5"
     },
@@ -4276,7 +4276,7 @@
       "checksum": "b55039c29cef2427d8f635bf4d8c870f"
     },
     "R/mod_tab_2.R": {
-      "checksum": "6dd5ead577483cabdcfb306d838c2609"
+      "checksum": "89efc2c3512414fb65f7da958bd9c4a0"
     },
     "R/mod_tab_3.R": {
       "checksum": "7019f97e909eea146e62ba3343cedcaa"
