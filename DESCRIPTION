@@ -1,6 +1,6 @@
 Package: retentionsApp
 Title: Retentions data application
-Version: 0.0.0.9007
+Version: 0.0.0.9008
 Authors@R:
     person("Jumping", "Rivers", , "info@jumpingrivers.com", role = c("aut", "cre"))
 Description: Retentions data exploration app-as-a-package.
@@ -13,10 +13,12 @@ Imports:
     ggplot2,
     glue,
     golem (>= 0.3.3),
+    htmlwidgets,
     magrittr,
     pins,
     plotly,
     purrr,
+    reactable,
     readr,
     rlang,
     scales,
