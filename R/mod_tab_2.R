@@ -121,24 +121,42 @@ mod_tab_2_server = function(id, raw_retention) {
     })
 
     retention_data = shiny::reactive({
-        raw_retention %>%
-          dplyr::filter(.data$cohort == input$cohort)
+      raw_retention %>%
+        dplyr::filter(.data$cohort == input$cohort)
     })
 
+    alt_click_handler = htmlwidgets::JS(glue::glue("function(event, data) {{
+                                          Shiny.setInputValue('{ns('sankey_node_data')}:utVizSankey.nodeConverter', data.entries);}}")) # nolint
+
     output$retention_sankey = utVizSankey::renderSankey({
-      # Prevent Sankey from rendering before all inputs
+      # prevent sankey from rendering before all inputs
       # have been created/updated
       shiny::req(input$cohort)
-      shiny::req(
-        all(
+      shiny::req(all(
           input$first_level != input$second_level,
           input$second_level != input$third_level,
-          input$third_level != input$first_level
-        )
-      )
+          input$third_level != input$first_level))
 
       utVizSankey::sankey(retention_data(),
-                          steps = sankey_steps())
+                          steps = sankey_steps(),
+                          alt_click_handler = alt_click_handler)
+    })
+
+    shiny::observeEvent(input$sankey_node_data, {
+      shiny::showModal(
+        shiny::modalDialog(
+          title = "Retention data",
+          reactable::reactable(input$sankey_node_data,
+                               elementId = "sankey-data"),
+          size = "xl",
+          easyClose = TRUE,
+          footer = shiny::tagList(
+            shiny::actionButton("download-csv",
+                                "Download as CSV",
+                                onclick = "Reactable.downloadDataCSV('sankey-data')")
+          )
+        )
+      )
     })
   })
 }
