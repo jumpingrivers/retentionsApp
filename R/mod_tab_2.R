@@ -142,19 +142,26 @@ mod_tab_2_server = function(id, raw_retention) {
                           alt_click_handler = alt_click_handler)
     })
 
+    # Can you download the data in the modal?
+    modal_footer = get_modal_footer(get_retention_version())
+
     shiny::observeEvent(input$sankey_node_data, {
       shiny::showModal(
         shiny::modalDialog(
           title = "Retention data",
           reactable::reactable(input$sankey_node_data,
-                               elementId = "sankey-data"),
+                               elementId = "sankey-data",
+                               defaultColDef = reactable::colDef(
+                                 minWidth = 100
+                               ),
+                               columns = list(
+                                 ipeds_race_ethnicity = reactable::colDef(minWidth = 210),
+                                 gpa_band = reactable::colDef(minWidth = 140),
+                                 metric = reactable::colDef(minWidth = 140)
+                               )),
           size = "xl",
           easyClose = TRUE,
-          footer = shiny::tagList(
-            shiny::actionButton("download-csv",
-                                "Download as CSV",
-                                onclick = "Reactable.downloadDataCSV('sankey-data')")
-          )
+          footer = modal_footer
         )
       )
     })
